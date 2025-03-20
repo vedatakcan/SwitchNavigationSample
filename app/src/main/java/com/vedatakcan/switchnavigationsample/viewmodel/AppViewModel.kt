@@ -6,50 +6,89 @@ import androidx.lifecycle.ViewModel
 
 class AppViewModel : ViewModel() {
 
-    private val _switchStates = MutableLiveData<Map<String, Boolean>>()
-    val switchStates: LiveData<Map<String, Boolean>> = _switchStates
+    // Switch durumlarını tutan LiveData'lar
 
-    private val _bottomMenuItems = MutableLiveData<List<String>>()
-    val bottomMenuItems: LiveData<List<String>> = _bottomMenuItems
+    private val _isEgoSwitchChecked = MutableLiveData(true) // Başlangıçta açık
+    val isEgoSwitchChecked: LiveData<Boolean> = _isEgoSwitchChecked
 
-    private val maxMenuItems = 5 // En fazla 5 menü eklenebilir
+    private val _isSettingsSwitchChecked = MutableLiveData(false)
+    val isSettingsSwitchChecked: LiveData<Boolean> = _isSettingsSwitchChecked
 
+    private val _isHelpSwitchChecked = MutableLiveData(false)
+    val isHelpSwitchChecked: LiveData<Boolean> = _isHelpSwitchChecked
 
-    init {
-        // Varsayılan switch ve menü durumu (Ego açık, diğerleri kapalı)
-        _switchStates.value = mapOf(
-            "switchEgo" to true,
-            "switchSettings" to false,
-            "switchHelp" to false,
-            "switchNotifications" to false,
-            "switchProfile" to false,
-            "switchSearch" to false
-        )
-        _bottomMenuItems.value = listOf() // Başlangıçta boş olacak
-    }
+    private val _isNotificationsSwitchChecked = MutableLiveData(false)
+    val isNotificationsSwitchChecked: LiveData<Boolean> = _isNotificationsSwitchChecked
 
-    // Switch durumunu güncelle
-    fun updateSwitchState(key: String, state: Boolean) {
-        val updateStates = _switchStates.value?.toMutableMap() ?: mutableMapOf()
+    private val _isProfileSwitchChecked = MutableLiveData(false)
+    val isProfileSwitchChecked: LiveData<Boolean> = _isProfileSwitchChecked
 
-        updateStates[key] = state
+    private val _isSearchSwitchChecked = MutableLiveData(false)
+    val isSearchSwitchChecked: LiveData<Boolean> = _isSearchSwitchChecked
 
-        // Eğer kapalıysa diğer switchler açılabilir
-        if (key == "switchEgo" && !state) {
-            updateStates?.keys?.forEach { if (it != "switchEgo") updateStates[it] = true }
-            _bottomMenuItems.value = listOf("home") // Bottom menü de home eklenir
+    // Bottom Navigation'ın görünürlüğünü kontrol eden LiveData
+    private val _isBottomNavVisible = MutableLiveData(false)
+    val isBottomNavVisible: LiveData<Boolean> = _isBottomNavVisible
+
+    // Switch durumlarını değiştiren fonksiyonlar
+    fun setEgoSwitchChecked(isChecked: Boolean) {
+        _isEgoSwitchChecked.value = isChecked
+
+        // Ego switch açıldığında, diğer switch'leri kapat
+        if (isChecked) {
+            _isSettingsSwitchChecked.value = false
+            _isHelpSwitchChecked.value = false
+            _isNotificationsSwitchChecked.value = false
+            _isProfileSwitchChecked.value = false
+            _isSearchSwitchChecked.value = false
         }
 
-        _switchStates.value = updateStates
+        // Ego switch kapalı olduğunda, Bottom Navigation'ı kontrol et
+        _isBottomNavVisible.value = !isChecked
     }
 
-    // Buttom menüye eleman ekleme
-    fun addMenuItem(item: String){
-        val currentItems = _bottomMenuItems.value ?: listOf()
-
-        if (!currentItems.contains(item) && currentItems.size < maxMenuItems) {
-            _bottomMenuItems.value = currentItems + item
+    fun setSettingsSwitchChecked(isChecked: Boolean) {
+        if (_isEgoSwitchChecked.value == true) {
+            // Ego switch açıkken diğer switch'lerin açılmasına izin verme
+            _isSettingsSwitchChecked.value = false
+        } else {
+            _isSettingsSwitchChecked.value = isChecked
         }
     }
 
+    fun setHelpSwitchChecked(isChecked: Boolean) {
+        if (_isEgoSwitchChecked.value == true) {
+            // Ego switch açıkken diğer switch'lerin açılmasına izin verme
+            _isHelpSwitchChecked.value = false
+        } else {
+            _isHelpSwitchChecked.value = isChecked
+        }
+    }
+
+    fun setNotificationsSwitchChecked(isChecked: Boolean) {
+        if (_isEgoSwitchChecked.value == true) {
+            // Ego switch açıkken diğer switch'lerin açılmasına izin verme
+            _isNotificationsSwitchChecked.value = false
+        } else {
+            _isNotificationsSwitchChecked.value = isChecked
+        }
+    }
+
+    fun setProfileSwitchChecked(isChecked: Boolean) {
+        if (_isEgoSwitchChecked.value == true) {
+            // Ego switch açıkken diğer switch'lerin açılmasına izin verme
+            _isProfileSwitchChecked.value = false
+        } else {
+            _isProfileSwitchChecked.value = isChecked
+        }
+    }
+
+    fun setSearchSwitchChecked(isChecked: Boolean) {
+        if (_isEgoSwitchChecked.value == true) {
+            // Ego switch açıkken diğer switch'lerin açılmasına izin verme
+            _isSearchSwitchChecked.value = false
+        } else {
+            _isSearchSwitchChecked.value = isChecked
+        }
+    }
 }
