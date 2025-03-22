@@ -64,4 +64,7 @@ dependencies {
     // Material Design
     implementation(libs.material.v150)
 
+    // Splash Screen API
+    implementation(libs.androidx.core.splashscreen)
+
 }

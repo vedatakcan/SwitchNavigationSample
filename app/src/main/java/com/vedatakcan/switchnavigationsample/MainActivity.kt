@@ -1,16 +1,13 @@
 package com.vedatakcan.switchnavigationsample
 
 import android.os.Bundle
-import android.view.View
+import android.window.SplashScreen
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
-import androidx.lifecycle.ViewModelProvider
+import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import com.vedatakcan.switchnavigationsample.databinding.ActivityMainBinding
-import com.vedatakcan.switchnavigationsample.viewmodel.AppViewModel
 
 class MainActivity : AppCompatActivity() {
 

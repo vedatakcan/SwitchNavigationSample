@@ -6,4 +6,9 @@
     </style>
 
     <style name="Theme.SwitchNavigationSample" parent="Base.Theme.SwitchNavigationSample" />
+
+    <style name="Theme.App.LearnEnglishApp" parent="Theme.SplashScreen">
+        <item name="windowSplashScreenBackground">@color/bg_splash_screen</item> <!-- Arkaplan rengi -->
+        <item name="windowSplashScreenAnimatedIcon">@mipmap/ic_launcher_round</item> <!-- SVG veya PNG logonuz -->
+    </style>
 </resources>
